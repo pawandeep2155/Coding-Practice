@@ -39,7 +39,7 @@ Node* construct_tree(int in_start, int in_end, int pre_start, int pre_end, int i
 }
 
 int main(){
-    int inorder[] = {3,3,7,6,8,2,4,9};
+    int inorder[] = {5,3,7,6,8,2,4,9};
     int preorder[] = {2,3,5,6,7,8,4,9};
     int n = sizeof(inorder) / sizeof(inorder[0]);
 
