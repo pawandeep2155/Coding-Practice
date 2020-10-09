@@ -26,9 +26,9 @@ int construct_tree(vector<int> &segment_tree, int index, int left, int right, in
 int greater_count(vector<int> &segment_tree, int index, int left, int right, int query_val, int query_m, int a[]){
     if(query_val > segment_tree[index])
         return 0;
-    segment_tree[index]--;
+    segment_tree[index]-=query_m;
     if(left == right){
-        a[left]--;
+        a[left]-=query_m;
         return 1;
     }
     int mid = (left + right) / 2;
