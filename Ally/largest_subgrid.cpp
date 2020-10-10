@@ -5,13 +5,37 @@
 
 using namespace std;
 
-void print_grid(int grid[3][3]){
-    for(int i = 0; i < 3; i++){
-        for(int j = 0; j < 3; j++){
-            cout<<grid[i][j]<<" ";
+int grid_sum(int grid[3][3], int k){
+    int dp[3][3];
+    // Fill vertical strips
+    for(int j = 0; j < 3; j++){
+        // Sum first k 
+        int sum = 0;
+        for(int i = 0; i < k; i++){
+            sum += grid[i][j];
         }
-        cout<<endl;
+        dp[0][j] = sum;
+        // Sum remaining k
+        for(int i = 1; i <= 3-k; i++){
+            sum += grid[i+k-1][j] - grid[i-1][j];
+            dp[i][j] = sum;
+        }
     }
+    int max_sum = INT_MIN;
+    for(int i = 0; i <= 3-k; i++){
+        int sum = 0;
+        // Sum first k 
+        for(int j = 0; j < k; j++){
+            sum += dp[i][j];
+        }
+        max_sum = max(sum, max_sum);
+        // Sum remaining k
+        for(int j = 1; j <= 3-k; j++){
+            sum += dp[i][j+k-1] - dp[i][j-1];
+            max_sum = max(sum, max_sum);
+        }
+    }
+    return max_sum;
 }
 
 int main(){
@@ -19,33 +43,24 @@ int main(){
     int grid[n][n] = {{2, 2, 2}, 
                       {3, 3, 3}, 
                       {4, 4, 4}};
-    int max_sum = 16;
-    int dp[n][n][n] = {0};
+    int max_sum = 26;
+    int low = 1, high = n;
     int soln = 0;
-    for(int i = 0; i < n; i++){
-        int sum;
-        for(int j = 0; j < n-i; j++){
-            for(int k = 0; k < n-i; k++){
-                sum = 0;
-                if(i==0)
-                    dp[i][j][k] = grid[j][k];
-                else{
-                    dp[i][j][k] = dp[i-1][j][k];
-                    for(int p = j; p <= j+i; p++){
-                        dp[i][j][k] += grid[p][k+i];
-                    }
-                    for(int p = k; p < k+i; p++){
-                        dp[i][j][k] += grid[j+i][p];
-                    }
-                }
-                sum += dp[i][j][k];
-            }
-        }         
-        if(sum < max_sum)
-            soln = i+1;
-        else
+    while(low <= high){
+        int mid = (low+high)/2;
+        int max_grid_sum = grid_sum(grid, mid);
+        if(max_grid_sum > max_sum){
+            high = mid - 1;
+        }
+        else if(max_grid_sum < max_sum){
+            soln = max(soln, mid);
+            low = mid + 1;
+        }
+        else{
+            soln = mid;
             break;
+        }
     }
-    cout<<"Max size grid "<<soln<<endl;
+    cout<<"Soln is "<<soln<<endl;
     return 0;
 }
