@@ -16,9 +16,9 @@ int is_prime(int n){
 }
 
 int main(){
-    string s = "####*###";
+    string s = "#***#";
     int n = s.size();
-    int r1 = 1, r2 = 2;
+    int r1 = 1, r2 = 5;
     vector<int> T(n+1, INT_MAX);
     T[1] = 0;
     int prime = 0;

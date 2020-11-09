@@ -1,6 +1,9 @@
     // OPTIMAL SOLUTION
     
-    #include <bits/stdc++.h>
+    #include <iostream>
+	#include <queue>
+	#include <vector>
+	#include <map>
      
     using namespace std;
      
